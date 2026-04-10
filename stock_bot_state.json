@@ -1,0 +1,61 @@
+﻿{
+    "last_actions":  [
+
+                     ],
+    "last_trade_at":  {
+
+                      },
+    "peaks":  {
+
+              },
+    "price_history":  {
+                          "SPY":  [
+                                      {
+                                          "price":  675.239990234375,
+                                          "market_state":  "REGULAR",
+                                          "timestamp":  "2026-04-09T13:42:25.5754922Z",
+                                          "change_percent":  -0.12129209
+                                      }
+                                  ],
+                          "TSLA":  [
+                                       {
+                                           "price":  344.70001220703125,
+                                           "market_state":  "REGULAR",
+                                           "timestamp":  "2026-04-09T13:42:26.3102675Z",
+                                           "change_percent":  0.42243618
+                                       }
+                                   ],
+                          "AAPL":  [
+                                       {
+                                           "price":  258.260009765625,
+                                           "market_state":  "REGULAR",
+                                           "timestamp":  "2026-04-09T13:42:22.4280187Z",
+                                           "change_percent":  -0.25878057
+                                       }
+                                   ],
+                          "QQQ":  [
+                                      {
+                                          "price":  605.72998046875,
+                                          "market_state":  "REGULAR",
+                                          "timestamp":  "2026-04-09T13:42:24.8262414Z",
+                                          "change_percent":  -0.069303885
+                                      }
+                                  ],
+                          "MSFT":  [
+                                       {
+                                           "price":  369.0899963378906,
+                                           "market_state":  "REGULAR",
+                                           "timestamp":  "2026-04-09T13:42:23.3475370Z",
+                                           "change_percent":  -1.3865024
+                                       }
+                                   ],
+                          "NVDA":  [
+                                       {
+                                           "price":  181.55599975585938,
+                                           "market_state":  "REGULAR",
+                                           "timestamp":  "2026-04-09T13:42:24.1288837Z",
+                                           "change_percent":  -0.29108018
+                                       }
+                                   ]
+                      }
+}

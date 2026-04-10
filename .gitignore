@@ -1,0 +1,11 @@
+.env
+turnip_bot.log
+turnip_bot_state.json
+turnip_tick_history.jsonl
+__pycache__/
+dist/
+build/
+*.pyc
+*.pyo
+*.pyd
+*.tmp

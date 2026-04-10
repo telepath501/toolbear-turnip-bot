@@ -1,0 +1,18 @@
+﻿{
+    "balance":  "10000.00",
+    "income_items":  [
+                         {
+                             "tx_type":  "balance_adjustment",
+                             "label":  "ä½é¢è°æ´",
+                             "total_amount":  "10000.00",
+                             "count":  1
+                         }
+                     ],
+    "expense_items":  [
+
+                      ],
+    "income_total":  "10000.00",
+    "expense_total":  "0",
+    "net":  "10000.00",
+    "total_count":  1
+}

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turnip Bot Dashboard</title>
+  <style>
+    :root {
+      --bg: #efe7d6;
+      --panel: rgba(255, 250, 240, 0.88);
+      --panel-strong: rgba(255, 248, 235, 0.98);
+      --ink: #1d2a22;
+      --muted: #5d665b;
+      --line: rgba(66, 79, 58, 0.14);
+      --accent: #1e7a4d;
+      --accent-soft: rgba(30, 122, 77, 0.12);
+      --danger: #b14b32;
+      --danger-soft: rgba(177, 75, 50, 0.12);
+      --warn: #8b6a1f;
+      --warn-soft: rgba(139, 106, 31, 0.12);
+      --shadow: 0 18px 45px rgba(70, 58, 38, 0.12);
+      --radius: 22px;
+      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      --sans: "Segoe UI Variable", "Microsoft YaHei UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 220, 160, 0.42), transparent 26%),
+        linear-gradient(135deg, #f4efe2 0%, #e9dfc8 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1440px, calc(100vw - 28px));
+      margin: 18px auto 28px;
+    }
+
+    .hero, .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero {
+      grid-template-columns: 1.35fr 1fr;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      grid-template-columns: 1.18fr 0.82fr;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card {
+      padding: 24px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -80px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(30, 122, 77, 0.18), transparent 72%);
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(30px, 3vw, 44px);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      max-width: 44rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero-side {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel-strong);
+    }
+
+    .stat-label {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .stat-sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .column {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .panel-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .kv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .kv {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.62);
+    }
+
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .hint {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .control-card {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.68);
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .control-input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      background: rgba(255,255,255,0.9);
+      color: var(--ink);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #42533f;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .chart-wrap {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(246, 240, 227, 0.92));
+      padding: 12px 12px 10px;
+    }
+
+    #price-chart {
+      width: 100%;
+      height: 260px;
+      display: block;
+    }
+
+    .reason-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .reason-card {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.62);
+    }
+
+    .reason-card.buy { border-left: 5px solid var(--accent); }
+    .reason-card.sell { border-left: 5px solid var(--danger); }
+    .reason-card.hold { border-left: 5px solid var(--warn); }
+
+    .reason-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .reason-body {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .badge.sell {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .badge.hold {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    .tape, .logs, .ladder {
+      max-height: 360px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 11px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .log-line {
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid var(--line);
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .positive { color: var(--accent); }
+    .negative { color: var(--danger); }
+    .warning { color: var(--warn); }
+
+    .empty {
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      color: var(--muted);
+    }
+
+    .status-chip.done {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: rgba(30, 122, 77, 0.18);
+    }
+
+    .status-chip.waiting {
+      background: rgba(255,255,255,0.82);
+      color: var(--warn);
+      border-color: rgba(139, 106, 31, 0.18);
+    }
+
+    .foot {
+      margin-top: 18px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1180px) {
+      .hero, .grid, .split {
+        grid-template-columns: 1fr;
+      }
+      .kv-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100vw - 16px, 100%);
+        margin: 10px auto 18px;
+      }
+      .hero-card, .panel-body {
+        padding: 16px;
+      }
+      .hero-side, .kv-grid {
+        grid-template-columns: 1fr;
+      }
+      .stat-value {
+        font-size: 24px;
+      }
+      #price-chart {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="panel hero-card">
+        <h1 class="title">Turnip Bot 实时面板</h1>
+        <p class="subtitle">这个版本会同时展示实时行情、仓位、成交记录、价格曲线，以及机器人最近一次动作和最近一次跳过信号的原因，方便你盯一天试跑效果。</p>
+        <div class="meta">
+          <div class="pill">自动刷新 <span id="refresh-seconds">10</span>s</div>
+          <div class="pill">最近更新 <span id="updated-at">-</span></div>
+          <div class="pill">运行状态 <span id="health">加载中</span></div>
+          <div class="pill">缓存状态 <span id="cache-status">等待中</span></div>
+        </div>
+      </div>
+      <div class="panel hero-side">
+        <div class="stat">
+          <div class="stat-label">当前价格</div>
+          <div class="stat-value" id="price-now">-</div>
+          <div class="stat-sub" id="trend-line">趋势 -</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">未实现盈亏</div>
+          <div class="stat-value" id="unrealized-pnl">-</div>
+          <div class="stat-sub" id="avg-cost-line">成本 -</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">已交割 / 待交割</div>
+          <div class="stat-value" id="position-line">-</div>
+          <div class="stat-sub" id="inventory-line">总持仓 -</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">钱包余额</div>
+          <div class="stat-value" id="wallet-line">-</div>
+          <div class="stat-sub" id="wallet-stats-line">统计 -</div>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">分层止盈档位</h2>
+              <div class="panel-note">按当前真实持仓均价实时换算目标价</div>
+            </div>
+            <div class="ladder">
+              <table>
+                <thead>
+                  <tr>
+                    <th>利润档位</th>
+                    <th>目标价格</th>
+                    <th>卖出比例</th>
+                    <th>数量(可卖/总仓)</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="ladder-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="column">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">价格与信号</h2>
+              <div class="panel-note">最近采样曲线 + 机器人解释</div>
+            </div>
+            <div class="split">
+              <div class="chart-wrap">
+                <canvas id="price-chart" width="760" height="260"></canvas>
+              </div>
+              <div class="reason-stack">
+                <div class="reason-card hold" id="reason-hold">
+                  <div class="reason-title">
+                    <span>最近一次跳过</span>
+                    <span class="badge hold">Hold</span>
+                  </div>
+                  <div class="reason-body" id="reason-hold-body">等待数据...</div>
+                </div>
+                <div class="reason-card buy" id="reason-action">
+                  <div class="reason-title">
+                    <span>最近一次动作</span>
+                    <span class="badge" id="reason-action-badge">None</span>
+                  </div>
+                  <div class="reason-body" id="reason-action-body">等待数据...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">关键参数</h2>
+              <div class="panel-note">实时行情、风控和仓位约束</div>
+            </div>
+            <div class="kv-grid" id="metrics-grid"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">最近买卖记录</h2>
+              <div class="panel-note">来自 turnip 交易记录接口</div>
+            </div>
+            <div class="tape">
+              <table>
+                <thead>
+                  <tr>
+                    <th>时间</th>
+                    <th>方向</th>
+                    <th>数量</th>
+                    <th>价格</th>
+                    <th>描述</th>
+                  </tr>
+                </thead>
+                <tbody id="trade-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">自动交易控制</h2>
+              <div class="panel-note">直接改投入上限并重启主程序</div>
+            </div>
+            <div class="control-card">
+              <div class="reason-body">这里设置的是自动交易可动用的总资金上限，当前持仓和待交割成本也会算进去。</div>
+              <div class="control-row">
+                <input id="capital-limit-input" class="control-input" type="number" min="0" step="100" placeholder="输入自动交易总资金上限">
+                <button id="save-limit-btn" class="btn" type="button">保存并重启</button>
+                <button id="restart-bot-btn" class="btn secondary" type="button">仅重启程序</button>
+              </div>
+              <div class="reason-body" id="control-status">等待数据...</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">机器人状态</h2>
+              <div class="panel-note">状态文件与配置摘要</div>
+            </div>
+            <div class="kv-grid" id="bot-grid"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-head">
+              <h2 class="panel-title">最近日志</h2>
+              <div class="panel-note">帮助你确认是否按计划执行</div>
+            </div>
+            <div class="logs" id="log-rows"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">本面板只在本机 localhost 提供服务。</div>
+  </div>
+
+  <script>
+    const refreshSeconds = 10;
+    document.getElementById("refresh-seconds").textContent = String(refreshSeconds);
+
+    function fmtNum(value, digits = 2) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return "-";
+      return n.toFixed(digits);
+    }
+
+    function fmtPct(value, digits = 2) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return "-";
+      return `${n.toFixed(digits)}%`;
+    }
+
+    function fmtDate(value) {
+      if (!value) return "-";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toLocaleString("zh-CN", { hour12: false });
+    }
+
+    function setText(id, value, className = "") {
+      const el = document.getElementById(id);
+      el.textContent = value;
+      el.className = className;
+    }
+
+    function renderCards(containerId, items) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      items.forEach((item) => {
+        const node = document.createElement("div");
+        node.className = "kv";
+        node.innerHTML = `
+          <div class="label">${item.label}</div>
+          <div class="value ${item.className || ""}">${item.value}</div>
+          <div class="hint">${item.hint || "&nbsp;"}</div>
+        `;
+        container.appendChild(node);
+      });
+    }
+
+    function scoreTone(score) {
+      const n = Number(score);
+      if (!Number.isFinite(n)) return "";
+      if (n >= 75) return "positive";
+      if (n >= 55) return "warning";
+      if (n >= 35) return "";
+      return "negative";
+    }
+
+    function scoreHint(scores, side) {
+      const prefix = side === "buy" ? "buy" : "sell";
+      const reasons = Array.isArray(scores?.[`${prefix}_reasons`]) ? scores[`${prefix}_reasons`] : [];
+      const blockers = Array.isArray(scores?.[`${prefix}_blockers`]) ? scores[`${prefix}_blockers`] : [];
+      const parts = [];
+      if (reasons.length) parts.push(`有利: ${reasons.slice(0, 3).join(" / ")}`);
+      if (blockers.length) parts.push(`阻碍: ${blockers.slice(0, 2).join(" / ")}`);
+      return parts.join(" | ") || "等待更多实时数据";
+    }
+
+    function renderTrades(rows) {
+      const body = document.getElementById("trade-rows");
+      body.innerHTML = "";
+      if (!rows.length) {
+        body.innerHTML = `<tr><td colspan="5"><div class="empty">暂时没有可显示的买卖记录</div></td></tr>`;
+        return;
+      }
+
+      rows.forEach((row) => {
+        const tr = document.createElement("tr");
+        const side = String(row.tx_type || row.side || "").toLowerCase();
+        const isSell = side.includes("sell");
+        const label = isSell ? "卖出" : side.includes("buy") ? "买入" : (side || "-");
+        tr.innerHTML = `
+          <td>${fmtDate(row.created_at || row.ts)}</td>
+          <td><span class="badge ${isSell ? "sell" : ""}">${label}</span></td>
+          <td>${fmtNum(row.quantity || row.qty || 0, 0)}</td>
+          <td>${fmtNum(row.unit_price || row.price || 0)}</td>
+          <td>${row.description || "-"}</td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+
+    function renderLogs(lines) {
+      const box = document.getElementById("log-rows");
+      box.innerHTML = "";
+      if (!lines.length) {
+        box.innerHTML = `<div class="empty">还没有日志</div>`;
+        return;
+      }
+
+      lines.slice(-40).reverse().forEach((line) => {
+        const item = document.createElement("div");
+        item.className = "log-line";
+        item.textContent = line;
+        box.appendChild(item);
+      });
+    }
+
+    function renderSellLadder(derived) {
+      const body = document.getElementById("ladder-rows");
+      body.innerHTML = "";
+      const rows = derived?.sell_ladder_targets || [];
+      if (!rows.length) {
+        body.innerHTML = `<tr><td colspan="5"><div class="empty">暂时没有分层止盈档位</div></td></tr>`;
+        return;
+      }
+
+      rows.forEach((row) => {
+        const tr = document.createElement("tr");
+        const statusClass = row.executed ? "done" : "waiting";
+        const statusText = row.executed ? "已执行" : "待触发";
+        tr.innerHTML = `
+          <td>${fmtPct(row.profit_pct)}</td>
+          <td>${fmtNum(row.target_price)}</td>
+          <td>${fmtPct(row.sell_fraction_pct)}</td>
+          <td>${fmtNum(row.quantity_on_settled, 0)} / ${fmtNum(row.quantity_on_total, 0)}</td>
+          <td><span class="status-chip ${statusClass}">${statusText}</span></td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+
+    function drawPriceChart(priceHistory, history) {
+      const canvas = document.getElementById("price-chart");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      ctx.clearRect(0, 0, width, height);
+
+      const livePoints = ((priceHistory && priceHistory.prices) || [])
+        .map((row) => ({
+          t: new Date(row.created_at).getTime(),
+          price: Number(row.close),
+          high: Number(row.high),
+          low: Number(row.low)
+        }))
+        .filter((row) => Number.isFinite(row.t) && Number.isFinite(row.price));
+
+      const fallbackPoints = (history || [])
+        .map((row) => ({
+          t: new Date(row.timestamp).getTime(),
+          price: Number(row.mid_price),
+          fair: Number(row.fair_value)
+        }))
+        .filter((row) => Number.isFinite(row.t) && Number.isFinite(row.price));
+
+      const points = livePoints.length >= 2 ? livePoints : fallbackPoints;
+
+      if (points.length < 2) {
+        ctx.fillStyle = "#5d665b";
+        ctx.font = "14px Segoe UI";
+        ctx.fillText("采样点还不够，先让机器人继续跑一会儿。", 18, 28);
+        return;
+      }
+
+      const pad = { top: 16, right: 16, bottom: 28, left: 42 };
+      const minT = Math.min(...points.map((p) => p.t));
+      const maxT = Math.max(...points.map((p) => p.t));
+      const allY = points.flatMap((p) => {
+        if (Number.isFinite(p.high) && Number.isFinite(p.low)) {
+          return [p.low, p.high, p.price];
+        }
+        return [p.price, Number.isFinite(p.fair) ? p.fair : p.price];
+      });
+      const minY = Math.min(...allY);
+      const maxY = Math.max(...allY);
+      const ySpan = Math.max(0.01, maxY - minY);
+      const xSpan = Math.max(1, maxT - minT);
+
+      const x = (t) => pad.left + ((t - minT) / xSpan) * (width - pad.left - pad.right);
+      const y = (v) => height - pad.bottom - ((v - minY) / ySpan) * (height - pad.top - pad.bottom);
+
+      ctx.strokeStyle = "rgba(29,42,34,0.12)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const gy = pad.top + ((height - pad.top - pad.bottom) / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, gy);
+        ctx.lineTo(width - pad.right, gy);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "#5d665b";
+      ctx.font = "12px Segoe UI";
+      ctx.fillText(maxY.toFixed(2), 6, pad.top + 4);
+      ctx.fillText(minY.toFixed(2), 6, height - pad.bottom);
+
+      if (livePoints.length >= 2) {
+        ctx.fillStyle = "rgba(139,106,31,0.12)";
+        ctx.beginPath();
+        points.forEach((p, idx) => {
+          const px = x(p.t);
+          const py = y(p.price);
+          if (idx === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.lineTo(x(points[points.length - 1].t), height - pad.bottom);
+        ctx.lineTo(x(points[0].t), height - pad.bottom);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.strokeStyle = "rgba(139,106,31,0.9)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        points.forEach((p, idx) => {
+          const px = x(p.t);
+          const py = y(Number.isFinite(p.fair) ? p.fair : p.price);
+          if (idx === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "rgba(30,122,77,0.95)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      points.forEach((p, idx) => {
+        const px = x(p.t);
+        const py = y(p.price);
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      const last = points[points.length - 1];
+      ctx.fillStyle = "rgba(30,122,77,1)";
+      ctx.beginPath();
+      ctx.arc(x(last.t), y(last.price), 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#5d665b";
+      ctx.font = "12px Segoe UI";
+      ctx.fillText("绿线: 市价", width - 126, 20);
+      ctx.fillText("金线: 公允价", width - 126, 38);
+      ctx.fillStyle = "rgba(255,248,235,0.94)";
+      ctx.fillRect(width - 164, 6, 154, 42);
+      ctx.fillStyle = "#5d665b";
+      ctx.font = "12px Segoe UI";
+      ctx.fillText("green: actual price", width - 154, 20);
+      if (livePoints.length >= 2) {
+        ctx.fillText("area: site history", width - 154, 38);
+      } else {
+        ctx.fillText("gold: estimated fair", width - 154, 38);
+      }
+    }
+
+    function parseLatestHoldReason(logs) {
+      const reversed = [...(logs || [])].reverse();
+      const tickLine = reversed.find((line) => line.includes(" tick "));
+      if (!tickLine) {
+        return "还没有足够的 tick 日志。";
+      }
+
+      const reasons = [];
+      const spreadMatch = tickLine.match(/spread=([-0-9.]+)%/);
+      const tapeMatch = tickLine.match(/tape=([-0-9.]+)/);
+      const bookMatch = tickLine.match(/book=([-0-9.]+)/);
+      const pendingMatch = tickLine.match(/pending=([0-9]+)/);
+      const settledMatch = tickLine.match(/settled=([0-9]+)/);
+      const pnlMatch = tickLine.match(/pnl=([-0-9.]+)%/);
+
+      if (spreadMatch) reasons.push(`点差 ${spreadMatch[1]}%`);
+      if (bookMatch) reasons.push(`盘口失衡 ${bookMatch[1]}`);
+      if (tapeMatch) reasons.push(`成交失衡 ${tapeMatch[1]}`);
+      if (pendingMatch) reasons.push(`待交割 ${pendingMatch[1]}`);
+      if (settledMatch) reasons.push(`已交割 ${settledMatch[1]}`);
+      if (pnlMatch) reasons.push(`当前仓位盈亏 ${pnlMatch[1]}%`);
+
+      return reasons.length ? `最近一条行情日志显示，机器人当前主要在看这些条件:\n${reasons.join(" | ")}` : tickLine;
+    }
+
+    function getLatestAction(state, logs) {
+      const actions = state?.last_actions || [];
+      if (actions.length) {
+        return actions[actions.length - 1];
+      }
+
+      const reversed = [...(logs || [])].reverse();
+      const line = reversed.find((row) => row.includes("[dry-run]") || row.includes("Executed "));
+      if (!line) return null;
+      return { mode: "log", reason: line, side: line.toLowerCase().includes("sell") ? "sell" : "buy" };
+    }
+
+    function renderReasonCards(state, logs) {
+      const holdBody = document.getElementById("reason-hold-body");
+      holdBody.textContent = parseLatestHoldReason(logs);
+
+      const latest = getLatestAction(state, logs);
+      const badge = document.getElementById("reason-action-badge");
+      const body = document.getElementById("reason-action-body");
+      const card = document.getElementById("reason-action");
+
+      if (!latest) {
+        badge.textContent = "None";
+        badge.className = "badge hold";
+        card.className = "reason-card hold";
+        body.textContent = "目前还没有买卖动作记录。";
+        return;
+      }
+
+      const side = String(latest.side || "buy").toLowerCase();
+      const isSell = side.includes("sell");
+      badge.textContent = isSell ? "Sell" : "Buy";
+      badge.className = `badge ${isSell ? "sell" : ""}`;
+      card.className = `reason-card ${isSell ? "sell" : "buy"}`;
+
+      const lines = [
+        latest.timestamp ? `时间: ${fmtDate(latest.timestamp)}` : null,
+        latest.mode ? `模式: ${latest.mode}` : null,
+        latest.quantity != null ? `数量: ${latest.quantity}` : null,
+        latest.reference_price != null ? `参考价: ${fmtNum(latest.reference_price)}` : null,
+        latest.reason ? `原因: ${latest.reason}` : null
+      ].filter(Boolean);
+
+      body.textContent = lines.join("\n");
+    }
+
+    function renderReasonCards(state, logs) {
+      const holdBody = document.getElementById("reason-hold-body");
+      holdBody.textContent = parseLatestHoldReason(logs);
+
+      const latest = getLatestAction(state, logs);
+      const badge = document.getElementById("reason-action-badge");
+      const body = document.getElementById("reason-action-body");
+      const card = document.getElementById("reason-action");
+
+      if (!latest) {
+        badge.textContent = "None";
+        badge.className = "badge hold";
+        card.className = "reason-card hold";
+        body.textContent = "目前还没有买卖动作记录。";
+        return;
+      }
+
+      const side = String(latest.side || "buy").toLowerCase();
+      const isSell = side.includes("sell");
+      const success = latest?.response?.success;
+      const failed = success === false;
+
+      if (failed) {
+        badge.textContent = isSell ? "Sell Failed" : "Buy Failed";
+        badge.className = "badge hold";
+        card.className = "reason-card hold";
+      } else {
+        badge.textContent = isSell ? "Sell" : "Buy";
+        badge.className = `badge ${isSell ? "sell" : ""}`;
+        card.className = `reason-card ${isSell ? "sell" : "buy"}`;
+      }
+
+      const lines = [
+        latest.timestamp ? `时间: ${fmtDate(latest.timestamp)}` : null,
+        latest.mode ? `模式: ${latest.mode}` : null,
+        latest.quantity != null ? `数量: ${latest.quantity}` : null,
+        latest.reference_price != null ? `参考价: ${fmtNum(latest.reference_price)}` : null,
+        latest.reason ? `原因: ${latest.reason}` : null,
+        failed ? "结果: 未成交" : null,
+        latest?.response?.error ? `错误: ${latest.response.error}` : null
+      ].filter(Boolean);
+
+      body.textContent = lines.join("\n");
+    }
+
+    async function postJson(url, payload) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        let message = `HTTP ${res.status}`;
+        try {
+          const data = await res.json();
+          if (data.error) message = data.error;
+        } catch {}
+        throw new Error(message);
+      }
+      return await res.json();
+    }
+
+    function setControlBusy(busy) {
+      document.getElementById("save-limit-btn").disabled = busy;
+      document.getElementById("restart-bot-btn").disabled = busy;
+    }
+
+    function renderControlStatus(strategy, botControl) {
+      const limit = Number(strategy.max_total_capital_deployed || 0);
+      const running = botControl?.running ? "运行中" : "未运行";
+      const count = Number(botControl?.count || 0);
+      document.getElementById("capital-limit-input").value = Number.isFinite(limit) ? limit : "";
+      document.getElementById("control-status").textContent = `当前自动交易资金上限: ${fmtNum(limit)} | 机器人状态: ${running} | 进程数: ${count}`;
+    }
+
+    async function fetchJsonWithTimeout(url, timeoutMs = 7000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { cache: "no-store", signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function loadDashboard() {
+      try {
+        const data = await fetchJsonWithTimeout("/api/dashboard", 7000);
+        const market = data.market || {};
+        const depth = data.depth || {};
+        const inventory = data.inventory || {};
+        const wallet = data.wallet || {};
+        const walletStats = data.wallet_stats || {};
+        const state = data.bot_state || {};
+        const strategy = (data.config || {}).strategy || {};
+        const derived = data.derived || {};
+        const signalScores = derived.signal_scores || {};
+        const logs = data.bot_logs || [];
+        const service = data.service || {};
+        const botControl = data.bot_control || {};
+
+        setText("updated-at", fmtDate(data.generated_at));
+        setText("health", "在线", "positive");
+        setText("cache-status", (service.errors && service.errors.length) ? "部分缓存" : "实时", (service.errors && service.errors.length) ? "warning" : "positive");
+        setText("price-now", fmtNum(market.current_price), "");
+        setText("trend-line", `趋势 ${market.trend || "-"} / 周期 ${(Number(market.cycle_progress || 0) * 100).toFixed(1)}%`);
+
+        const pnl = Number(derived.estimated_unrealized_pnl || 0);
+        setText("unrealized-pnl", fmtNum(pnl), pnl >= 0 ? "positive" : "negative");
+        setText("avg-cost-line", `均价 ${fmtNum(derived.avg_cost)} / Bid ${fmtNum(market.bid)} / Ask ${fmtNum(market.ask)}`);
+        setText("position-line", `${fmtNum(inventory.settled_quantity, 0)} / ${fmtNum(inventory.pending_quantity, 0)}`);
+        setText("inventory-line", `总持仓 ${fmtNum(inventory.total_quantity, 0)} 棵`);
+        setText("wallet-line", fmtNum(wallet.balance), "");
+        setText("wallet-stats-line", `收入 ${fmtNum(walletStats.total_inflow)} / 支出 ${fmtNum(walletStats.total_outflow)}`);
+
+        renderCards("metrics-grid", [
+          { label: "买入评分", value: `${fmtNum(signalScores.buy_score || 0, 0)} / 100`, className: scoreTone(signalScores.buy_score), hint: `等级 ${signalScores.buy_level || "-"} | ${scoreHint(signalScores, "buy")}` },
+          { label: "卖出评分", value: `${fmtNum(signalScores.sell_score || 0, 0)} / 100`, className: scoreTone(signalScores.sell_score), hint: `等级 ${signalScores.sell_level || "-"} | ${scoreHint(signalScores, "sell")}` },
+          { label: "当前点差", value: fmtPct((Number(market.ask || 0) && Number(market.bid || 0) && Number(market.current_price || 0)) ? ((Number(market.ask) - Number(market.bid)) / Number(market.current_price)) * 100 : 0, 3), hint: "越小越适合买卖" },
+          { label: "盘口深度", value: fmtNum(depth.depth), hint: "depth 接口实时值" },
+          { label: "持有人数", value: fmtNum(market.total_holders, 0), hint: "反映参与广度" },
+          { label: "总流通量", value: fmtNum(market.total_quantity, 0), hint: "全站大头菜数量" },
+          { label: "资金上限", value: fmtNum(derived.capital_limit), hint: "自动交易总额度" },
+          { label: "已投入资金", value: fmtNum(derived.deployed_capital), hint: "持仓与待交割成本合计" },
+          { label: "剩余额度", value: fmtNum(derived.remaining_budget), hint: "还能继续自动买入的预算" },
+          { label: "买入滑点保护", value: fmtPct(strategy.buy_slippage_limit_pct), hint: "直购 max_price" },
+          { label: "卖出滑点保护", value: fmtPct(strategy.sell_slippage_limit_pct), hint: "直卖 min_price" },
+          { label: "开仓波动上限", value: fmtPct(strategy.volatility_entry_ceiling_pct), hint: "高波动时不追单" }
+        ]);
+
+        renderCards("bot-grid", [
+          { label: "采样点数", value: fmtNum((state.tick_history || []).length, 0), hint: "用于滚动信号计算" },
+          { label: "最近买入时间", value: state.last_order_at?.buy ? fmtDate(state.last_order_at.buy) : "-", hint: "来自 bot state" },
+          { label: "最近卖出时间", value: state.last_order_at?.sell ? fmtDate(state.last_order_at.sell) : "-", hint: "来自 bot state" },
+          { label: "峰值利润", value: state.position_peak_profit_pct == null ? "-" : fmtPct(state.position_peak_profit_pct), hint: "追踪止盈参考" },
+          { label: "15 / 30 / 60 分钟", value: `${fmtPct(signalScores.ret15_pct)} / ${fmtPct(signalScores.ret30_pct)} / ${fmtPct(signalScores.ret60_pct)}`, hint: "评分用的短中期趋势" },
+          { label: "反弹 / 离平台高点", value: `${fmtPct(signalScores.bounce_pct)} / ${fmtPct(signalScores.distance_from_high_pct)}`, hint: "平台后二次确认参考" },
+          { label: "现金缓冲", value: fmtNum(strategy.min_cash_buffer), hint: "保底不动用资金" },
+          { label: "剩余可投额度", value: fmtNum(derived.remaining_budget), hint: "受总资金上限控制" }
+        ]);
+
+        const rows = (data.turnip_transactions?.transactions || data.turnip_transactions || []).filter((row) => {
+          const kind = String(row.tx_type || row.side || "").toLowerCase();
+          return kind.includes("buy") || kind.includes("sell");
+        });
+
+        renderTrades(rows);
+        renderLogs(logs);
+        renderSellLadder(derived);
+        renderReasonCards(state, logs);
+        renderControlStatus(strategy, botControl);
+        drawPriceChart(data.price_history || null, state.tick_history || []);
+      } catch (error) {
+        setText("health", `异常: ${error.message}`, "negative");
+        setText("cache-status", "刷新失败", "negative");
+      }
+    }
+
+    document.getElementById("save-limit-btn").addEventListener("click", async () => {
+      const input = document.getElementById("capital-limit-input");
+      const value = Number(input.value);
+      if (!Number.isFinite(value) || value < 0) {
+        document.getElementById("control-status").textContent = "请输入有效的资金上限。";
+        return;
+      }
+
+      try {
+        setControlBusy(true);
+        document.getElementById("control-status").textContent = "正在保存并重启机器人...";
+        await postJson("/api/settings", {
+          max_total_capital_deployed: value,
+          restart_bot: true
+        });
+        document.getElementById("control-status").textContent = `已更新自动交易资金上限为 ${fmtNum(value)}，机器人正在重启。`;
+        await loadDashboard();
+      } catch (error) {
+        document.getElementById("control-status").textContent = `更新失败: ${error.message}`;
+      } finally {
+        setControlBusy(false);
+      }
+    });
+
+    document.getElementById("restart-bot-btn").addEventListener("click", async () => {
+      try {
+        setControlBusy(true);
+        document.getElementById("control-status").textContent = "正在重启机器人...";
+        await postJson("/api/bot/restart", {});
+        document.getElementById("control-status").textContent = "机器人已收到重启请求。";
+        await loadDashboard();
+      } catch (error) {
+        document.getElementById("control-status").textContent = `重启失败: ${error.message}`;
+      } finally {
+        setControlBusy(false);
+      }
+    });
+
+    loadDashboard();
+    setInterval(loadDashboard, refreshSeconds * 1000);
+  </script>
+</body>
+</html>

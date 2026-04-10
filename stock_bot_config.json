@@ -1,0 +1,48 @@
+{
+  "base_url": "https://lilium.kuma.homes",
+  "token_env_var": "TOOLBEAR_TOKEN",
+  "polling_seconds": 60,
+  "watchlist": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "QQQ",
+    "SPY",
+    "TSLA"
+  ],
+  "external_reference": {
+    "enabled": true,
+    "provider": "yahoo_chart",
+    "benchmark_symbols": [
+      "SPY",
+      "QQQ"
+    ],
+    "benchmark_range": "1mo",
+    "benchmark_interval": "1d",
+    "symbol_range": "1mo",
+    "symbol_interval": "1d",
+    "require_external_alignment": true
+  },
+  "strategy": {
+    "max_open_positions": 2,
+    "per_trade_cash": 1500,
+    "min_cash_buffer": 2000,
+    "cooldown_minutes": 20,
+    "entry_5m_momentum_pct": 0.6,
+    "entry_15m_confirm_pct": 1.0,
+    "short_5m_momentum_pct": -0.6,
+    "short_15m_confirm_pct": -1.0,
+    "external_symbol_min_5d_return_pct_for_long": 1.0,
+    "external_symbol_max_5d_return_pct_for_short": -1.0,
+    "benchmark_min_5d_return_pct_for_long": 0.4,
+    "benchmark_max_5d_return_pct_for_short": -0.4,
+    "external_symbol_min_distance_from_sma20_pct_for_long": 0.0,
+    "external_symbol_max_distance_from_sma20_pct_for_short": 0.0,
+    "take_profit_pct": 3.0,
+    "stop_loss_pct": 1.5,
+    "trailing_stop_pct": 1.2,
+    "max_notional_per_symbol": 2500
+  },
+  "state_path": ".\\stock_bot_state.json",
+  "log_path": ".\\stock_bot.log"
+}

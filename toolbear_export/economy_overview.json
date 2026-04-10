@@ -1,0 +1,315 @@
+﻿{
+    "generated_at":  "2026-04-08T17:43:52.365961Z",
+    "wallet":  {
+                   "total_users":  1069,
+                   "active_users":  1048,
+                   "total_balance":  "10933251.21",
+                   "total_escrow":  "0.00",
+                   "total_credited":  "826552.83",
+                   "bank_balance":  "-4154264027.28",
+                   "tx_24h_count":  2290,
+                   "tx_24h_volume":  "15388075.56"
+               },
+    "tax":  {
+                "total_collected":  "0",
+                "total_count":  0,
+                "collected_24h":  "0",
+                "count_24h":  0
+            },
+    "stock":  {
+                  "account_count":  32,
+                  "open_positions":  35,
+                  "open_users":  3,
+                  "total_margin":  "1988.7235401000000000",
+                  "total_notional":  "16081.71554010",
+                  "total_realized_pnl":  "65622.73",
+                  "total_trade_count":  27,
+                  "best_trade_pnl":  "46880.63",
+                  "trades_24h_count":  398,
+                  "trades_24h_volume":  "6010871.83720843"
+              },
+    "futures":  {
+                    "open_positions":  0,
+                    "open_users":  0,
+                    "open_interest":  "0",
+                    "total_margin":  "0",
+                    "long_count":  0,
+                    "short_count":  0,
+                    "total_realized_pnl":  "0",
+                    "liquidation_count":  0,
+                    "trades_24h_count":  0,
+                    "trades_24h_volume":  "0",
+                    "liquidation_24h":  0,
+                    "liquidation_24h_volume":  "0",
+                    "total_funding":  "0",
+                    "insurance_fund":  "0",
+                    "treasury_balance":  "0"
+                },
+    "turnip":  {
+                   "current_price":  "64.25",
+                   "bid":  "64.24",
+                   "ask":  "64.25",
+                   "spread_pct":  0.0001556420233463035,
+                   "pricing_model":  "supply_demand",
+                   "fair_value":  "63.88",
+                   "fair_value_gap_pct":  0.0057921102066374455,
+                   "demand_depth":  "2028922",
+                   "supply_depth":  "3784792",
+                   "treasury_cash_balance":  "4153014011.97",
+                   "treasury_turnip_balance":  "45595639",
+                   "trend":  "fluctuating",
+                   "trend_hour":  1,
+                   "cycle_progress":  0.32222222222222224,
+                   "total_holders":  11,
+                   "total_quantity":  "1667",
+                   "avg_buy_price":  "82.300803839232153569286142771445710857828434313137",
+                   "total_value":  "107104.75",
+                   "volume_6h":  "1148096.24",
+                   "buy_volume_6h":  "574048.12",
+                   "sell_volume_6h":  "574048.12",
+                   "liquidity":  {
+                                     "snapshot_at":  "2026-04-08T17:43:49.785649Z",
+                                     "raw_allocation_shadow":  "0",
+                                     "live_allocation_total":  "1000",
+                                     "allocation_ratio_vs_harvest":  null,
+                                     "harvest_ema":  "0.00",
+                                     "ambient_supply":  "0.00",
+                                     "ambient_supply_ratio":  null,
+                                     "target_sink_destroy":  "0.00",
+                                     "actual_sink_destroy":  "0.00",
+                                     "destroy_gap":  "0.00"
+                                 },
+                   "control":  {
+                                   "guardrail_mode":  "enforce",
+                                   "oracle_mode":  null,
+                                   "reference_price":  null,
+                                   "price_error":  null,
+                                   "price_error_ema":  null,
+                                   "target_support_ratio":  null,
+                                   "actual_support_ratio":  null,
+                                   "support_gap":  null,
+                                   "support_gap_ema":  null,
+                                   "policy_buy_rate":  "0.035000",
+                                   "policy_sell_rate":  "0.071500",
+                                   "live_sink_bid_bias_pct":  "0.182284",
+                                   "live_source_ask_bias_pct":  "0.091142",
+                                   "live_sink_budget_multiplier":  "1.000000",
+                                   "clamp_flags":  {
+                                                       "live_sink_bid_bias_clamped":  false,
+                                                       "live_source_ask_bias_clamped":  false,
+                                                       "live_sink_budget_multiplier_clamped":  false
+                                                   }
+                               },
+                   "noise":  {
+                                 "tick_number":  117,
+                                 "drift":  "-0.478339",
+                                 "vol":  "1.234580",
+                                 "jump":  "0.200000",
+                                 "scenario_supply_mult":  "1.143502",
+                                 "scenario_demand_mult":  "0.856498",
+                                 "scenario_npc_direction":  "-0.139170",
+                                 "seed_hash":  "3586ae6386f29ebc"
+                             }
+               },
+    "farm":  {
+                 "growing_quantity":  "13851",
+                 "mature_quantity":  "0",
+                 "harvested_quantity":  "0",
+                 "wilted_quantity":  "0",
+                 "total_batches":  50,
+                 "total_quantity":  "13851",
+                 "total_invested":  "447848.37",
+                 "active_invested":  "447848.37"
+             },
+    "land":  {
+                 "total_lands":  0,
+                 "farm_lands":  0,
+                 "warehouse_lands":  0,
+                 "dormitory_lands":  0,
+                 "farm_capacity":  0,
+                 "warehouse_capacity":  0,
+                 "dormitory_capacity":  0
+             },
+    "pal":  {
+                "total_pals":  0,
+                "pal_owners":  0,
+                "avg_rarity":  0.0,
+                "high_rarity_count":  0,
+                "r10_count":  0,
+                "total_eggs":  0,
+                "egg_owners":  0,
+                "eggs_inventory":  0,
+                "eggs_hatching":  0,
+                "eggs_hatched":  0,
+                "eggs_tier1":  0,
+                "eggs_tier2":  0,
+                "eggs_tier3":  0,
+                "total_spent":  "0"
+            },
+    "health":  {
+                   "coverage_ratio":  2462.8867777,
+                   "bank_liability":  "4154259097.28",
+                   "captured_at":  "2026-04-08T17:43:37.413658Z",
+                   "gold_exchange":  {
+                                         "currency":  "raid_gold",
+                                         "current_rate":  "0.04827938",
+                                         "anchor_rate":  "0.09810096",
+                                         "premium_pct":  -0.50786027,
+                                         "wallet_inflation":  0.02381891,
+                                         "game_inflation":  795.08435472,
+                                         "buy_volume_24h":  "291823.37",
+                                         "sell_volume_24h":  "395059.27",
+                                         "volume_24h":  "686882.64",
+                                         "net_flow_24h":  "-103235.90",
+                                         "updated_at":  "2026-04-08T17:43:52.609305Z",
+                                         "revision":  136
+                                     }
+               },
+    "bank_ledger":  [
+                        {
+                            "tx_type":  "blackjack_bet",
+                            "label":  "21ç¹ä¸æ³¨",
+                            "amount":  "119055.00"
+                        },
+                        {
+                            "tx_type":  "stock_cover",
+                            "label":  "è¡ç¥¨å¹³ä»",
+                            "amount":  "-71846.68"
+                        },
+                        {
+                            "tx_type":  "stock_buy",
+                            "label":  "è¡ç¥¨ä¹°å\u0085¥",
+                            "amount":  "75875.76"
+                        },
+                        {
+                            "tx_type":  "vocab_win",
+                            "label":  "åè¯æ¸¸æ",
+                            "amount":  "-14460.00"
+                        },
+                        {
+                            "tx_type":  "farm_fertilize",
+                            "label":  "æ½è¥",
+                            "amount":  "15264.76"
+                        },
+                        {
+                            "tx_type":  "blackjack_win",
+                            "label":  "21ç¹èµ¢",
+                            "amount":  "-55482.00"
+                        },
+                        {
+                            "tx_type":  "transfer_in",
+                            "label":  "è½¬è´¦æ¶å\u0085¥",
+                            "amount":  "3001.08"
+                        },
+                        {
+                            "tx_type":  "scratch_win",
+                            "label":  "å®å®ä¹ä¸­å¥",
+                            "amount":  "-4800.00"
+                        },
+                        {
+                            "tx_type":  "game_buy_in",
+                            "label":  "æ¸¸æä¹°å\u0085¥",
+                            "amount":  "80.00"
+                        },
+                        {
+                            "tx_type":  "stock_sell",
+                            "label":  "è¡ç¥¨ååº",
+                            "amount":  "-127839.93"
+                        },
+                        {
+                            "tx_type":  "stock_short",
+                            "label":  "è¡ç¥¨åç©º",
+                            "amount":  "60120.92"
+                        },
+                        {
+                            "tx_type":  "shop_purchase",
+                            "label":  "ååºè´­ä¹°",
+                            "amount":  "10000.00"
+                        },
+                        {
+                            "tx_type":  "game_win",
+                            "label":  "æ¸¸æå¥å±",
+                            "amount":  "-80.00"
+                        },
+                        {
+                            "tx_type":  "insurance_funding",
+                            "label":  "ä¿é©éåºæ¨æ¬¾",
+                            "amount":  "-1000000.00"
+                        },
+                        {
+                            "tx_type":  "daily_credit",
+                            "label":  "æ¯æ¥ç­¾å°",
+                            "amount":  "-826552.83"
+                        },
+                        {
+                            "tx_type":  "balance_adjustment",
+                            "label":  "ä½é¢è°æ´",
+                            "amount":  "-4152439963.85"
+                        },
+                        {
+                            "tx_type":  "scratch_buy",
+                            "label":  "å®å®ä¹è´­ä¹°",
+                            "amount":  "6600.00"
+                        },
+                        {
+                            "tx_type":  "market_fee",
+                            "label":  "äº¤æè¡æç»­è´¹",
+                            "amount":  "0.50"
+                        },
+                        {
+                            "tx_type":  "blackjack_push",
+                            "label":  "21ç¹å¹³å±",
+                            "amount":  "-13000.00"
+                        }
+                    ],
+    "bucket_status":  {
+                          "futures_payout":  {
+                                                 "level":  "1000000.0",
+                                                 "max":  "1000000.0",
+                                                 "pct":  1.0,
+                                                 "refill_rate":  "1000.00"
+                                             },
+                          "last_refill_at":  "2026-04-08T17:43:52.623507Z"
+                      },
+    "oi_depth":  {
+                     "long_oi":  "0",
+                     "short_oi":  "0",
+                     "net_oi":  "0",
+                     "total_oi":  "0",
+                     "virtual_depth":  "1248703.99335401",
+                     "oi_depth_ratio":  0.0,
+                     "insurance_fund":  "0.0"
+                 },
+    "system_wallet_balances":  [
+                                   {
+                                       "key":  "bank",
+                                       "label":  "å¤®è¡",
+                                       "user_id":  "8e4f7199-4cdc-47ec-a579-6801073fad79",
+                                       "balance":  "-4154264027.28"
+                                   },
+                                   {
+                                       "key":  "futures_treasury",
+                                       "label":  "æè´§å½åº",
+                                       "user_id":  "__futures_mm_treasury__",
+                                       "balance":  "0"
+                                   },
+                                   {
+                                       "key":  "raid_exchange_treasury",
+                                       "label":  "éå¸å\u0085æ¢å½åº",
+                                       "user_id":  "__raid_exchange_treasury__",
+                                       "balance":  "-103235.90"
+                                   },
+                                   {
+                                       "key":  "turnip_spot_treasury",
+                                       "label":  "å¤§å¤´èç°è´§å½åº",
+                                       "user_id":  "__turnip_spot_treasury__",
+                                       "balance":  "4153014011.97"
+                                   },
+                                   {
+                                       "key":  "insurance_treasury",
+                                       "label":  "ç§æ¤ä¿é©éåº",
+                                       "user_id":  "__insurance_treasury__",
+                                       "balance":  "1000000.00"
+                                   }
+                               ]
+}

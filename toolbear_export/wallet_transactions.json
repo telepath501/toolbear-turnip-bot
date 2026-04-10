@@ -1,0 +1,21 @@
+﻿{
+    "transactions":  [
+                         {
+                             "id":  983,
+                             "amount":  "10000.00",
+                             "balance_after":  "10000.00",
+                             "escrow_after":  null,
+                             "tx_type":  "balance_adjustment",
+                             "description":  "S4èµå­£åå§èµé",
+                             "reference_id":  null,
+                             "memo":  null,
+                             "counterparty_id":  null,
+                             "tx_group_id":  null,
+                             "created_at":  "2026-04-08T15:10:43.232428Z"
+                         }
+                     ],
+    "total":  1,
+    "page":  1,
+    "size":  100,
+    "has_more":  false
+}
